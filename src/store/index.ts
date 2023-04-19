@@ -1,8 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
+import { quanLyNguoiDungReducer } from "./quanLyNguoiDung/slice";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    quanLyNguoiDung: quanLyNguoiDungReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store["getState"]>;

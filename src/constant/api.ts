@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const http = axios.create();
 const tokenCybersoft =
@@ -14,5 +15,20 @@ http.interceptors.request.use((config: any) => {
     baseURL,
   };
 });
+
+http.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error?.response?.status === 403) {
+      toast.error("Bạn không có quyền truy cập");
+    }
+    if (error?.response?.status === 400) {
+      toast.error(error?.response?.data.content);
+    }
+    if (error?.response?.status === 404) {
+      toast.error(error?.response?.data.content);
+    }
+  }
+);
 
 export default http;
