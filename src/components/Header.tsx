@@ -1,8 +1,13 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { RootState, useAppDispatch } from "../store";
+import { quanLyNguoiDungActions } from "../store/quanLyNguoiDung/slice";
 
 const Header = () => {
-  // const [isActive, setIsActive] = useState(false)
+  const { user } = useSelector((state: RootState) => state.quanLyNguoiDung);
+  const appDispatch = useAppDispatch();
+  const navigate = useNavigate();
   return (
     <nav className="bg-white border-gray-200 sticky top-0">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -64,22 +69,48 @@ const Header = () => {
                 Contact
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/login"
-                className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
-              >
-                Login
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/register"
-                className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
-              >
-                Register
-              </NavLink>
-            </li>
+            {!user ? (
+              <>
+                <li>
+                  <NavLink
+                    to="/login"
+                    className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+                  >
+                    Login
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/register"
+                    className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+                  >
+                    Register
+                  </NavLink>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <NavLink
+                    to="/edit"
+                    className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+                  >
+                    Hello {user.hoTen}
+                  </NavLink>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      appDispatch(quanLyNguoiDungActions.logout());
+                      navigate("/");
+                    }}
+                    className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>

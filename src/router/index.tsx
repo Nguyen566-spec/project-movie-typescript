@@ -6,6 +6,7 @@ import About from "../pages/About";
 import Contact from "../pages/Contact";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import Edit from "../pages/Edit";
 
 const Router = () => {
   const elements = useRoutes([
@@ -24,6 +25,10 @@ const Router = () => {
         {
           path: "contact",
           element: <Contact />,
+        },
+        {
+          path: "edit",
+          element: <Edit />,
         },
       ],
     },
