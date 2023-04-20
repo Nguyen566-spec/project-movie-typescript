@@ -9,7 +9,7 @@ export const ToastMessage = () => {
     info: (message: string) => toast(message, { type: "info" }),
   };
   Object.assign(message, toastClone);
-  return <ToastContainer />;
+  return <ToastContainer position="top-right" />;
 };
 
 export const message = {};

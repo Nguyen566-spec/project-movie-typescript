@@ -3,7 +3,7 @@ import {
   GetUserResponse,
   quanLyNguoiDungService,
 } from "../services/quanLyNguoiDung.service";
-import { message } from "../module/ToastMessage";
+// import { message } from "../module/ToastMessage";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -21,12 +21,9 @@ const Register = () => {
           try {
             const res = await quanLyNguoiDungService.register(value);
             if (res.data.statusCode !== 400) {
-              console.log("Đăng ký thành công");
+              navigate("/login");
             }
-            navigate("/login");
-          } catch (error) {
-            console.log("Đăng ký thất bại");
-          }
+          } catch (error) {}
         })}
       >
         <div className="mb-6">
@@ -68,7 +65,7 @@ const Register = () => {
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Your email
+            Email
           </label>
           <input
             {...register("email", {
@@ -102,7 +99,7 @@ const Register = () => {
             htmlFor="matKhau"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Your password
+            Mật khẩu
           </label>
           <input
             {...register("matKhau", {
