@@ -7,6 +7,10 @@ import Contact from "../pages/Contact";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Edit from "../pages/Edit";
+import Dashboard from "../pages/Dashboard";
+import AdminLayout from "../layout/AdminLayout";
+import MovieList from "../pages/MovieList";
+import MovieAdd from "../pages/MovieAdd";
 
 const Router = () => {
   const elements = useRoutes([
@@ -40,6 +44,24 @@ const Router = () => {
       path: "/register",
       element: <Register />,
     },
+    {
+      path: '/admin',
+      element: <AdminLayout/>,
+      children: [
+        {
+          path: "",
+          element: <Dashboard/>,
+        },
+        {
+          path: 'movie',
+          element: <MovieList/>,
+        },
+        {
+          path: 'movie/add',
+          element: <MovieAdd/>,
+        },
+      ]
+    }
   ]);
   return elements;
 };
