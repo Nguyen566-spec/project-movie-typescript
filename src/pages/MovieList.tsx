@@ -3,12 +3,15 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../store";
 import { getMovieList } from "../store/quanLyPhim/thunkAction";
 import { NavLink } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { QuanLyPhimInitialState } from "../store/quanLyPhim/slice";
 
 const MovieList = () => {
+  const { register, handleSubmit } = useForm<QuanLyPhimInitialState>();
   const { movieList } = useSelector((state: RootState) => state.quanLyPhim);
   const appDispatch = useAppDispatch();
   useEffect(() => {
-    appDispatch(getMovieList());
+    appDispatch(getMovieList(""));
   }, [appDispatch]);
   return (
     <div className="p-8">
@@ -21,7 +24,12 @@ const MovieList = () => {
           Thêm mới
         </NavLink>
       </div>
-      <form className="pb-8">
+      <form
+        className="pb-8"
+        onSubmit={handleSubmit((value) => {
+          appDispatch(getMovieList(value.timKiem));
+        })}
+      >
         <label
           htmlFor="default-search"
           className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -47,11 +55,10 @@ const MovieList = () => {
             </svg>
           </div>
           <input
+            {...register("timKiem")}
             type="search"
             id="default-search"
             className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Search Mockups, Logos..."
-            required
           />
           <button
             type="submit"
@@ -75,10 +82,10 @@ const MovieList = () => {
           </thead>
           <tbody>
             {movieList?.map((movie) => (
-              <tr className="bg-white border-b">
+              <tr className="bg-white border-b" key={movie.maPhim}>
                 <td className="p-3">{movie.maPhim}</td>
                 <td className="p-3">
-                  <img src={movie.hinhAnh} alt={movie.tenPhim} />
+                  <img src={movie.hinhAnh as string} alt={movie.tenPhim} />
                 </td>
                 <td className="p-3">{movie.tenPhim}</td>
                 <td className="p-3">{movie.moTa}</td>
