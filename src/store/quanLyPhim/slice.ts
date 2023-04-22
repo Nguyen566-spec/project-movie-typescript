@@ -1,13 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getMovieList } from "./thunkAction";
+import { addMovie, getMovieList } from "./thunkAction";
 import { GetMovieResponse } from "../../services/quanLyPhim.service";
 
-type QuanLyPhimInitialState = {
+export type QuanLyPhimInitialState = {
   movieList?: GetMovieResponse[];
+  timKiem: string;
+  // isLoading: boolean;
+  // error: any;
 };
 
 const initialState: QuanLyPhimInitialState = {
   movieList: [],
+  timKiem: "",
+  // isLoading: true,
+  // error: undefined,
 };
 
 export const { reducer: quanLyPhimReducer, actions: quanLyPhimActions } =
@@ -16,8 +22,19 @@ export const { reducer: quanLyPhimReducer, actions: quanLyPhimActions } =
     initialState,
     reducers: {},
     extraReducers(builder) {
-      builder.addCase(getMovieList.fulfilled, (state, action) => {
-        state.movieList = action.payload;
-      });
+      builder
+        // .addCase(getMovieList.pending, (state) => {
+        //   state.isLoading = true;
+        // })
+        .addCase(getMovieList.fulfilled, (state, action) => {
+          state.movieList = action.payload;
+        })
+        // .addCase(getMovieList.rejected, (state, action) => {
+        //   state.error = action.payload;
+        //   state.isLoading = false;
+        // })
+        .addCase(addMovie.fulfilled, (state, action) => {
+          state.movieList?.push(action.payload as GetMovieResponse);
+        });
     },
   });

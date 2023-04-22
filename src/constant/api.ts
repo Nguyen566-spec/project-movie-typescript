@@ -14,6 +14,7 @@ http.interceptors.request.use((config: any) => {
   return {
     ...config,
     headers: {
+      "Content-Type": "application/json",
       tokenCybersoft,
       Authorization: `Bearer ${data?.accessToken}`,
     },
@@ -33,7 +34,10 @@ http.interceptors.response.use(
     if (error?.response?.status === 404) {
       toast.error(error?.response?.data.content);
     }
+    if (error?.response?.status === 500) {
+      toast.error(error?.response?.data.content);
+    }
   }
 );
-
+export const GROUP_ID = 'GP13'
 export default http;

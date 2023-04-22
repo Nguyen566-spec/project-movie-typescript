@@ -1,3 +1,4 @@
+import { FieldValues } from "react-hook-form";
 import http from "../constant/api";
 
 export type GetMovieResponse = {
@@ -5,7 +6,7 @@ export type GetMovieResponse = {
   tenPhim: string;
   biDanh: string;
   trailer: string;
-  hinhAnh: string;
+  hinhAnh: string | File;
   moTa: string;
   maNhom: string;
   ngayKhoiChieu: Date;
@@ -15,9 +16,22 @@ export type GetMovieResponse = {
   sapChieu: boolean;
 };
 
+// export type GetPageResponse<T> = {
+//   currentPage: number;
+//   count: number;
+//   totalPages: number;
+//   totalCount: number;
+//   items: T;
+// };
+
 export const quanLyPhimService = {
   getMovieList: (query = "") =>
     http.get<HttpResponse<GetMovieResponse[]>>(
       `QuanLyPhim/LayDanhSachPhim${query}`
+    ),
+  addMovie: (payload: FieldValues) =>
+    http.post<HttpResponse<GetMovieResponse>>(
+      "QuanLyPhim/ThemPhimUploadHinh",
+      payload
     ),
 };
